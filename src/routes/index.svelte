@@ -20,7 +20,6 @@
 
 <script lang="ts">
     import TodoItem from "$lib/todo-item.svelte";
-    import { api } from "./todos/_api";
 
     export let todos: Todo[];
 
