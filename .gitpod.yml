@@ -1,13 +1,17 @@
 # For more details, please see https://www.gitpod.io/docs/references/gitpod-yml
+image: gitpod/workspace-postgres
+
 tasks:
   - init: npm install
     command: |
-      export HMR_HOST=`gp url 3000`
+      export HMR_HOST=`gp url 3000` 
       npm run dev
-
+  
 ports:
-  - port: -3000
+  - port: 3000
     onOpen: open-browser
+  - port: 5432
+    onOpen: ignore
 
 vscode:
   extensions:
