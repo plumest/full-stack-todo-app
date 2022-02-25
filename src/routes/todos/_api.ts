@@ -3,7 +3,7 @@ import type { RequestEvent } from "@sveltejs/kit/types/internal";
 //TODO: Implement database
 let todos: Todo[] = [];
 
-export const api = (request: RequestEvent, todo?: Todo) => {
+export const api = (request: RequestEvent, data?: Record<string, unknown>) => {
     let body = {};
     let status = 500;
 
@@ -15,13 +15,23 @@ export const api = (request: RequestEvent, todo?: Todo) => {
             status = 200;
             break;
         case "POST":
-            todos.push(todo);
-            body = todo;
+            todos.push(data as Todo);
+            body = data;
             status = 201;
             break;
 
         case "DELETE":
             todos = todos.filter(todo => todo.uid !== request.params.uid)
+            status = 200;
+            break;
+        
+        case "PATCH":
+            todos = todos.map(todo => {
+                if (todo.uid === request.params.uid) {
+                    todo.text = data.text as string;
+                }
+                return todo;
+            })
             status = 200;
             break;
 
