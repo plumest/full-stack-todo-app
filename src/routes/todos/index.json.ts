@@ -9,7 +9,6 @@ export const get: RequestHandler = (request) => {
 export const post: RequestHandler =  async ( request: RequestEvent ) => {
     const formData = await request.request.formData();
     return api(request, {
-        uid: `${Date.now()}`,
         create_at: new Date(),
         text: formData.get("text") as string,
         done: false
