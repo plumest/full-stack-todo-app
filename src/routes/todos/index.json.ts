@@ -1,28 +1,17 @@
 import type { RequestHandler } from "@sveltejs/kit"
+import type { RequestEvent } from "@sveltejs/kit/types/internal";
+import { api } from "./_api"
 
-//TODO: Implement database
-let todos: Todo[] = [];
-
-export const get: RequestHandler = () => {
-    return {
-        status: 200,
-        body: todos
-    }
+export const get: RequestHandler = (request) => {
+    return api(request);
 }
 
-export const post: RequestHandler =  async ({ request }) => {
-    const formData = await request.formData();
-    todos.push({
+export const post: RequestHandler =  async ( request: RequestEvent ) => {
+    const formData = await request.request.formData();
+    return api(request, {
+        uid: `${Date.now()}`,
         create_at: new Date(),
         text: formData.get("text") as string,
         done: false
-    });
-
-    return {
-        // Redirect back
-        status: 303,
-        headers: {
-            location: "/"
-        }
-    }
+    })
 }
